@@ -1,0 +1,14 @@
+# Verwenden des offiziellen MySQL-Docker-Images als Basis
+FROM mysql:latest
+
+# Umgebungsvariablen für die MySQL-Konfiguration festlegen
+ENV MYSQL_ROOT_PASSWORD=LYNMysql
+ENV MYSQL_DATABASE=database
+ENV MYSQL_USER=testuser
+ENV MYSQL_PASSWORD=LYNMysql
+
+# SQL-Skript in den Container kopieren
+COPY init.sql /docker-entrypoint-initdb.d/
+
+# Port freigeben, auf dem MySQL läuft (standardmäßig 3306)
+EXPOSE 3306
