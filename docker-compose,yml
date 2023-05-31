@@ -1,10 +1,14 @@
 version: '4'
 services:
   moodle:
-    # build: /moodle_m169/Dockerfile
+    # Moodle-Service-Konfiguration
+    # build: /moodle_m169/Dockerfile (auskommentiert)
     image: moodle_m169
     ports:
       - 80:80
+      # Port-Mapping: Der Host-Port 80 wird auf den Container-Port 80 gemappt.
+      # Dadurch wird der Moodle-Service über den Host-Port 80 erreichbar.
+
     depends_on:
       - database
     environment:
@@ -13,11 +17,17 @@ services:
       - MYSQL_USER=moodle
     secrets:
       - mysql_password
+      # Verwendung des Secrets "mysql_password" im Moodle-Service.
+      # Das Secret enthält das Passwort für den MySQL-Benutzer "moodle".
+      
     volumes:
       - /data_m169/moodledata:/var/www/html/moodledata
+      # Verbindet den Host-Pfad '/data_m169/moodledata' mit dem Container-Pfad '/var/www/html/moodledata'.
+      # Dies ermöglicht das Speichern von Moodle-spezifischen Daten außerhalb des Containers.
 
   database:
-    # build: /mysql_m169/Dockerfile
+    # Datenbank-Service-Konfiguration (MariaDB)
+    # build: /mysql_m169/Dockerfile (auskommentiert)
     image: mariadb_m169
     command: --init-file /docker-entrypoint-initdb.d/moodle_dump.sql
     environment:
@@ -26,16 +36,30 @@ services:
     secrets:
       - mysql_password
       - mysql_root_password
+      # Verwendung der Secrets "mysql_password" und "mysql_root_password" im Datenbank-Service.
+      # Das Secret "mysql_password" enthält das Passwort für den MySQL-Benutzer "moodle".
+      # Das Secret "mysql_root_password" enthält das Root-Passwort für die Datenbank.
+
     volumes:
       - ./moodle_dump:/docker-entrypoint-initdb.d/moodle.sql
       - /data_m169/dbdata:/var/lib/mysql
+      # Verbindet den Host-Pfad './moodle_dump' mit dem Container-Pfad '/docker-entrypoint-initdb.d/moodle.sql'.
+      # Verbindet den Host-Pfad '/data_m169/dbdata' mit dem Container-Pfad '/var/lib/mysql'.
+      # Dies ermöglicht das Speichern von Datenbank-spezifischen Daten außerhalb des Containers.
 
 secrets:
+  # Secrets-Konfiguration
   mysql_password:
     file: ./secrets/mysql_password.txt
+    # Das Secret "mysql_password" wird aus der Datei './secrets/mysql_password.txt' geladen.
+    # Diese Datei enthält das Passwort für den MySQL-Benutzer "moodle".
+
   mysql_root_password:
     file: ./secrets/mysql_root_password.txt
+    # Das Secret "mysql_root_password" wird aus der Datei './secrets/mysql_root_password.txt' geladen.
+    # Diese Datei enthält das Root-Passwort für die Datenbank.
 
 volumes:
+  # Volumes-Konfiguration
   moodledata:
   dbdata:
