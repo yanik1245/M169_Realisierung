@@ -1,7 +1,7 @@
 version: '1'
 services:
   moodle:
-    build: /moodle_m169/Dockerfile
+    # build: /moodle_m169/Dockerfile
     image: moodle_m169
     ports:
       - 80:80
@@ -17,8 +17,9 @@ services:
       - ./moodledata:/var/www/html/moodledata
 
   database:
-    build: /mysql_m169/Dockerfile
+    # build: /mysql_m169/Dockerfile
     image: mariadb_m169
+    command: --init-file /docker-entrypoint-initdb.d/moodle_dump.sql
     environment:
       - MYSQL_DATABASE=moodle
       - MYSQL_USER=moodle
@@ -26,6 +27,7 @@ services:
       - mysql_password
       - mysql_root_password
     volumes:
+      - ./moodle_dump:/docker-entrypoint-initdb.d/moodle.sql
       - ./dbdata:/var/lib/mysql
 
 secrets:
