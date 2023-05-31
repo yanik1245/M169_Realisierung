@@ -1,7 +1,7 @@
 version: '1'
 services:
   moodle:
-    image: moodle-image:latest
+    image: moodle_m169
     ports:
       - 80:80
     depends_on:
@@ -13,10 +13,10 @@ services:
     secrets:
       - mysql_password
     volumes:
-      - moodledata:/var/www/html/moodledata
+      - ./moodledata:/var/www/html/moodledata
 
   database:
-    image: mariadb-image:latest
+    image: mariadb_m169
     environment:
       - MYSQL_DATABASE=moodle
       - MYSQL_USER=moodle
@@ -24,7 +24,7 @@ services:
       - mysql_password
       - mysql_root_password
     volumes:
-      - dbdata:/var/lib/mysql
+      - ./dbdata:/var/lib/mysql
 
 secrets:
   mysql_password:
