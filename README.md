@@ -6,7 +6,7 @@
 - Abgabetermin: 04.06.2023
 
 ## Inhaltsverzeichnis
-1. (realisierung](Dokumente)
+1. [Dokumente](https://github.com/yanik1245/M169_Realisierung/tree/main/Arbeitsjournale))
 2. [Arbeitsjournale](#Arbeitsjournale)
 
 ## Mitwirkende
