@@ -1,0 +1,11 @@
+# Verwendet das Basisimage "bitnami/moodle:latest"
+FROM bitnami/moodle:latest
+
+# Setzt den Container-Port auf 80
+EXPOSE 80
+
+# Erstellt ein Volumen mit dem Pfad "/bitnami/moodle"
+VOLUME ["/bitnami/moodle"]
+
+# Setzt das Label "Maintainer" auf die E-Mail-Adresse des Maintainers
+LABEL Maintainer="louis.pedrazzini@edu.gbssg.ch"
