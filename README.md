@@ -6,8 +6,8 @@
 - Abgabetermin: 04.06.2023
 
 ## Inhaltsverzeichnis
-1. [Dokumente (realisierung)](#general-info)
-2. [Arbeitsjournale](#technologies)
+1. [Dokumente (realisierung)](#Dokumente)
+2. [Arbeitsjournale](#Arbeitsjournale)
 
 ## Mitwirkende
 
