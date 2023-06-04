@@ -49,9 +49,9 @@ services:
 # Definition Secrets
 secrets:
   mysql_password:
-    file: ./moodle_password.txt
-  mysql_root_password:
     file: ./mysql_password.txt
+  mysql_root_password:
+    file: ./moodle_password.txt
 
 # Definition Volumes
 volumes:
