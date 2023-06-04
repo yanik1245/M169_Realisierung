@@ -50,7 +50,7 @@ services:
 secrets:
   mysql_password:
     file: ./mysql_password.txt
-  mysql_root_password:
+  moodle_password:
     file: ./moodle_password.txt
 
 # Definition Volumes
