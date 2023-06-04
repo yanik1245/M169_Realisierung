@@ -1,29 +1,29 @@
 # Versionierung
-version: '3.8'
+version: '3.9'
 # Konfiguration Container
 services:
   # Erstellung Moodle-Container
   moodle:
     # verwendung von eigenem Moodle-Image
-    image: moodlem169
+    image: bitnami/moodle:4.1.2
     # Mappen von Port 80
     ports:
-      - 80:80
+      - 80:8080
     # Abhängigkeit zu DB-Container
     depends_on:
       - database
     # Setzen von Umgebungsvariablen
     environment:
-      - MYSQL_HOST=database # Host = DB-Container
-      - MYSQL_DATABASE=moodle # DB = moodle
-      - MYSQL_USER=moodle # DB-User = moodle
-      - ALLOW_EMPTY_PASSWORD=yes # kein Passwort erlauben
+      - MOODLE_DATABASE_HOST=database # Host = DB-Container
+      - MOODLE_DATABASE_USER=root # DB-User = moodle
+      - MOODLE_DATABASE_NAME=moodle # DB = moodle
+      - MOODLE_DATABASE_PASSWORD_FILE=/run/secrets/moodle_password
      # verwenden von Secret
     secrets:
-      - mysql_password
+      - moodle_password
     # Speicherung auf lokalem Host
     volumes:
-      - moodledata:/var/www/html/moodledata
+      - moodledata:/bitnami/moodledata
     # definition Netzwerk
     networks:
       - moodle_network
@@ -35,26 +35,23 @@ services:
     # Setzen Umgebungsvariablen
     environment:
       - MYSQL_DATABASE=moodle # erstellt Datenbank mit Namen Moodle
-      - MYSQL_USER=moodle # erstellt User mit Namen moodle
-      - MYSQL_PASSWORD_FILE=/run/secrets/mysql_password # setzt für Moodle user PW aus Secret 
-      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql_root_password # setzt für DB-Root PW aus Secret
+      - MYSQL_ROOT_USER=root # erstellt User mit Namen root
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql_password # setzt für DB-Root PW aus Secret
     # Deklaration Secrets 
     secrets:
       - mysql_password
-      - mysql_root_password
     # Speicherung auf lokalem Host
     volumes:
       - dbdata:/var/lib/mysql
     # definition Netzwerk
     networks:
       - moodle_network
-      
 # Definition Secrets
 secrets:
   mysql_password:
-    file: ./secrets/mysql_password.txt
+    file: ./moodle_password.txt
   mysql_root_password:
-    file: ./secrets/mysql_root_password.txt
+    file: ./mysql_password.txt
 
 # Definition Volumes
 volumes:
