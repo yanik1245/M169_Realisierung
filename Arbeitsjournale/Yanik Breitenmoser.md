@@ -162,6 +162,8 @@ Wir haben heute das Testkonzept auch noch fertigstellen können, da alle ihren T
 # 04. Juni 2023
 - Was wurde heute gemacht?
   - Heute konnten wir die Realisierung und Abnahmetest abschliessen.
+- Was lief gut?
+  - Die Abnahmetests funktionierten Problemlos
 - Wo gab es Schwierigkeiten?
   - Da ich gestern das Compose-File zu wenig getestet habe, ist mir nicht aufgefallen, dass es doch nicht ganz funktioniert. Folgendes musste ich Korrigieren.
   - Zusammen mit Louis, Hilfe von Mitschülern und viel Recherche konnten wir die Fehler korrigieren.
