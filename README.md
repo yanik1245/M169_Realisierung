@@ -7,7 +7,7 @@
 
 ## Inhaltsverzeichnis
 1. [Dokumente](https://github.com/yanik1245/M169_Realisierung/tree/main/Dokumente)
-2. [Arbeitsjournale](https://github.com/yanik1245/M169_Realisierung/tree/main/Arbeitsjournale)
+2. [migration](https://github.com/yanik1245/M169_Realisierung/tree/main/migration)
 
 ## Mitwirkende
 
