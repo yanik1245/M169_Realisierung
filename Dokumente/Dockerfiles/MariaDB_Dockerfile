@@ -1,5 +1,0 @@
-# Verwenden des offiziellen MariaDB-Docker-Images als Basis
-FROM mariadb:latest
-
-# Port freigeben, auf dem MariaDB läuft (standardmäßig 3306)
-EXPOSE 3306
