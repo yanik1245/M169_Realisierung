@@ -2,34 +2,12 @@
 version: '3.9'
 # Konfiguration Container
 services:
-  # Erstellung Moodle-Container
-  moodle:
-    # verwendung von eigenem Moodle-Image
-    image: bitnami/moodle:4.1.2
-    # Mappen von Port 80
-    ports:
-      - 80:8080
-    # Abhängigkeit zu DB-Container
-    depends_on:
-      - database
-    # Setzen von Umgebungsvariablen
-    environment:
-      - MOODLE_DATABASE_HOST=database # Host = DB-Container
-      - MOODLE_DATABASE_USER=root # DB-User = moodle
-      - MOODLE_DATABASE_NAME=moodle # DB = moodle
-      - MOODLE_DATABASE_PASSWORD_FILE=/run/secrets/moodle_password
-     # verwenden von Secret
-    secrets:
-      - moodle_password
-    # Speicherung auf lokalem Host
-    volumes:
-      - moodledata:/bitnami/moodledata
-    # definition Netzwerk
-    networks:
-      - moodle_network
-      
 # Erstellung Datenbank-Container
   database:
+    # buildet Image
+    build:
+      context: ./Dockerfile
+      dockerfile: Dockerfile
     # Verwendung eigenes DB-Image
     image: mariadbm169
     # Setzen Umgebungsvariablen
@@ -46,6 +24,35 @@ services:
     # definition Netzwerk
     networks:
       - moodle_network
+      
+  # Erstellung Moodle-Container
+  moodle:
+    # verwendung von eigenem Moodle-Image
+    image: bitnami/moodle:4.1.2
+    # Mappen von Port 80
+    ports:
+      - 8081:8080
+    # Abhängigkeit zu DB-Container
+    depends_on:
+      - database
+    # Setzen von Umgebungsvariablen
+    environment:
+      - MOODLE_DATABASE_HOST=database # Host = DB-Container
+      - MOODLE_DATABASE_USER=root # DB-User = moodle
+      - MOODLE_DATABASE_NAME=moodle # DB = moodle
+      - MOODLE_DATABASE_PASSWORD_FILE=/run/secrets/moodle_password
+      - PUID=998
+      - PGID=100
+     # verwenden von Secret
+    secrets:
+      - moodle_password
+    # Speicherung auf lokalem Host
+    volumes:
+      - moodledata:/bitnami/moodledata
+    # definition Netzwerk
+    networks:
+      - moodle_network
+      
 # Definition Secrets
 secrets:
   mysql_password:
