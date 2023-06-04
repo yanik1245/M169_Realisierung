@@ -1,44 +1,62 @@
+# Versionierung
 version: '3.8'
+# Konfiguration Container
 services:
+  # Erstellung Moodle-Container
   moodle:
+    # verwendung von eigenem Moodle-Image
     image: moodlem169
+    # Mappen von Port 80
     ports:
       - 80:80
+    # Abhängigkeit zu DB-Container
     depends_on:
       - database
+    # Setzen von Umgebungsvariablen
     environment:
-      - MYSQL_HOST=database
-      - MYSQL_DATABASE=moodle
-      - MYSQL_USER=moodle
-      - ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_HOST=database # Host = DB-Container
+      - MYSQL_DATABASE=moodle # DB = moodle
+      - MYSQL_USER=moodle # DB-User = moodle
+      - ALLOW_EMPTY_PASSWORD=yes # kein Passwort erlauben
+     # verwenden von Secret
     secrets:
       - mysql_password
+    # Speicherung auf lokalem Host
     volumes:
       - moodledata:/var/www/html/moodledata
+    # definition Netzwerk
     networks:
       - moodle_network
-
+      
+# Erstellung Datenbank-Container
   database:
+    # Verwendung eigenes DB-Image
     image: mariadbm169
+    # Setzen Umgebungsvariablen
     environment:
-      - MYSQL_DATABASE=moodle
-      - MYSQL_USER=moodle
-      - MYSQL_PASSWORD_FILE=/run/secrets/mysql_password
-      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql_root_password
+      - MYSQL_DATABASE=moodle # erstellt Datenbank mit Namen Moodle
+      - MYSQL_USER=moodle # erstellt User mit Namen moodle
+      - MYSQL_PASSWORD_FILE=/run/secrets/mysql_password # setzt für Moodle user PW aus Secret 
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql_root_password # setzt für DB-Root PW aus Secret
+    # Deklaration Secrets 
     secrets:
       - mysql_password
       - mysql_root_password
+    # Speicherung auf lokalem Host
     volumes:
       - dbdata:/var/lib/mysql
+    # definition Netzwerk
     networks:
       - moodle_network
-
+      
+# Definition Secrets
 secrets:
   mysql_password:
     file: ./secrets/mysql_password.txt
   mysql_root_password:
     file: ./secrets/mysql_root_password.txt
 
+# Definition Volumes
 volumes:
   moodledata:
   dbdata:
